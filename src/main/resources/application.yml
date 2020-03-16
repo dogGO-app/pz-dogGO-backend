@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5434/doggo-db
+    url: jdbc:postgresql://localhost:5432/doggo-db
     username: postgres
     password: 1
   jpa:
