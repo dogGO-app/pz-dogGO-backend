@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component
 import pl.put.poznan.pz.doggo.modules.auth.security.userdetails.CustomUserDetails
 import java.util.*
 import javax.crypto.SecretKey
+import javax.servlet.http.HttpServletRequest
 
 @Component
 object JwtUtils {
@@ -17,6 +18,9 @@ object JwtUtils {
 
     @Value("\${doggo.security.token.secret}")
     private var jwtSecret: String = "g4OKWjQeWlcnERgrbJtCxSAmv7eJZrjjb/rBYBOTHKzCTO4FJnzneXQQ1J8XZGUJvoRMyNV+54PdqPztqFbJ4Q=="
+
+    private const val TOKEN_HEADER = "Authorization"
+    private const val TOKEN_PREFIX = "Bearer "
 
     fun generateToken(authentication: Authentication): String {
         val userDetails = authentication.principal as CustomUserDetails
@@ -50,6 +54,12 @@ object JwtUtils {
         }
         return false
     }
+
+    fun parseJwt(request: HttpServletRequest): String? =
+            request.getHeader(TOKEN_HEADER)?.let { authHeader ->
+                if (authHeader.startsWith(TOKEN_PREFIX)) authHeader.removePrefix(TOKEN_PREFIX)
+                else null
+            }
 
     private fun buildParser(): JwtParser = Jwts.parserBuilder()
             .setSigningKey(jwtSecret)
