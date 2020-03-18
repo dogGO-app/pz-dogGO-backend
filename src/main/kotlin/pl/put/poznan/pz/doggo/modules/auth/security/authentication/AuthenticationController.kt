@@ -4,10 +4,10 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import pl.put.poznan.pz.doggo.modules.auth.dto.user.UserDTO
 import pl.put.poznan.pz.doggo.modules.auth.dto.requests.LoginRequestDTO
 import pl.put.poznan.pz.doggo.modules.auth.dto.requests.SignUpRequestDTO
 import pl.put.poznan.pz.doggo.modules.auth.dto.responses.JwtResponseDTO
+import pl.put.poznan.pz.doggo.modules.auth.dto.user.UserDTO
 import javax.validation.Valid
 
 @RestController

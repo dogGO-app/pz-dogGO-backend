@@ -8,7 +8,7 @@ import java.util.*
 
 class CustomUserDetails(val userEntity: UserEntity) : UserDetails {
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        return listOf(SimpleGrantedAuthority("ROLE_USER"))
+        return userEntity.roles.map { SimpleGrantedAuthority(it.name) }
     }
 
     override fun isEnabled(): Boolean {
