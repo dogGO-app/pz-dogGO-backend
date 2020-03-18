@@ -23,6 +23,7 @@ class WebSecurityConfig(
         private val userDetailsService: CustomUserDetailsService,
         private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint
 ) : WebSecurityConfigurerAdapter() {
+
     @Bean
     fun authenticationJwtTokenFilter(): JwtAuthenticationFilter {
         return JwtAuthenticationFilter(userDetailsService)
@@ -47,9 +48,10 @@ class WebSecurityConfig(
                 .cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/test/**").permitAll()
-                .anyRequest().authenticated();
+                .authorizeRequests()
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/test/**").hasAuthority("ROLE_USER")
+                .anyRequest().authenticated()
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
     }

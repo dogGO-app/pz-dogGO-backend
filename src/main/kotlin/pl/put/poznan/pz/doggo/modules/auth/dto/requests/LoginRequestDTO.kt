@@ -1,4 +1,4 @@
-package pl.put.poznan.pz.doggo.modules.auth.dto
+package pl.put.poznan.pz.doggo.modules.auth.dto.requests
 
 import javax.validation.constraints.NotBlank
 

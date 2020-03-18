@@ -21,5 +21,4 @@ spring:
 doggo:
   security:
     token:
-      secret: "Tu5AU1hAoC1hHH3T4NoLx/JPKmwKW/QbkMbiz4oMnCsXSTWCGbwlVa2X00dlupiprQwgD59/Mk8cd7molW/W3hS2t/LdiFpNA0tMM1INXKvNOhHnCM5zZn3heHWxSrcM0hdEgbmQNHJUBB+US5wL5RTGGcY0JhijH+K1ANpLm+zChQrbEbneVDEpNG2YW8pKwFD4IvYyhTKOZbHCrEBHAmmflv5UDATb2Q3niA=="
-      expiration-time-in-seconds: 86400
+      secret: "g4OKWjQeWlcnERgrbJtCxSAmv7eJZrjjb/rBYBOTHKzCTO4FJnzneXQQ1J8XZGUJvoRMyNV+54PdqPztqFbJ4Q=="

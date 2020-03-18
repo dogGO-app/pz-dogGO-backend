@@ -1,10 +1,10 @@
-package pl.put.poznan.pz.doggo.modules.auth.dto
+package pl.put.poznan.pz.doggo.modules.auth.dto.requests
 
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
-class SignUpRequestDTO(
+data class SignUpRequestDTO(
         @NotBlank
         @Email
         @Size(max = 50)

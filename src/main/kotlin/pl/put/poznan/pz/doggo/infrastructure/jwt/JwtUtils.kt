@@ -8,31 +8,26 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import pl.put.poznan.pz.doggo.modules.auth.security.userdetails.CustomUserDetails
-import java.time.Instant
 import java.util.*
 import javax.crypto.SecretKey
+import javax.servlet.http.HttpServletRequest
 
 @Component
 object JwtUtils {
     private val logger: Logger = LoggerFactory.getLogger(JwtUtils::class.java)
 
     @Value("\${doggo.security.token.secret}")
-    private val jwtSecret: String = ""
+    private var jwtSecret: String = "g4OKWjQeWlcnERgrbJtCxSAmv7eJZrjjb/rBYBOTHKzCTO4FJnzneXQQ1J8XZGUJvoRMyNV+54PdqPztqFbJ4Q=="
 
-    @Value("\${doggo.security.token.expiration-time-in-seconds}")
-    private val jwtExpirationSecs: Long = 0L
+    private const val TOKEN_HEADER = "Authorization"
+    private const val TOKEN_PREFIX = "Bearer "
 
     fun generateToken(authentication: Authentication): String {
         val userDetails = authentication.principal as CustomUserDetails
-        val expirationDate = run {
-            val now = Instant.now()
-            Date.from(now.plusSeconds(jwtExpirationSecs))
-        }
 
         return Jwts.builder()
                 .setSubject(userDetails.username)
                 .setIssuedAt(Date())
-                .setExpiration(expirationDate)
                 .signWith(getSecret(), SignatureAlgorithm.HS512)
                 .compact()
     }
@@ -59,6 +54,12 @@ object JwtUtils {
         }
         return false
     }
+
+    fun parseJwt(request: HttpServletRequest): String? =
+            request.getHeader(TOKEN_HEADER)?.let { authHeader ->
+                if (authHeader.startsWith(TOKEN_PREFIX)) authHeader.removePrefix(TOKEN_PREFIX)
+                else null
+            }
 
     private fun buildParser(): JwtParser = Jwts.parserBuilder()
             .setSigningKey(jwtSecret)

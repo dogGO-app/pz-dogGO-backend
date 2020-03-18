@@ -23,5 +23,7 @@ class UserEntity(
 
         @NotBlank
         @Size(max = 120)
-        val password: String
+        val password: String,
+
+        val role: String = "ROLE_USER"
 )
