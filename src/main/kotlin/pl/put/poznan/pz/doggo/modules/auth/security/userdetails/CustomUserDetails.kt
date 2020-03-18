@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import pl.put.poznan.pz.doggo.modules.auth.user.UserEntity
+import java.util.*
 
 class CustomUserDetails(private val userEntity: UserEntity) : UserDetails {
     override fun getAuthorities(): Collection<GrantedAuthority> {
@@ -32,5 +33,9 @@ class CustomUserDetails(private val userEntity: UserEntity) : UserDetails {
 
     override fun isAccountNonLocked(): Boolean {
         return true
+    }
+
+    fun getId(): UUID {
+        return userEntity.id
     }
 }

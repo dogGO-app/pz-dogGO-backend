@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import pl.put.poznan.pz.doggo.modules.auth.security.userdetails.CustomUserDetails
-import java.time.Instant
 import java.util.*
 import javax.crypto.SecretKey
 
@@ -17,30 +16,22 @@ object JwtUtils {
     private val logger: Logger = LoggerFactory.getLogger(JwtUtils::class.java)
 
     @Value("\${doggo.security.token.secret}")
-    private val jwtSecret: String = ""
-
-    @Value("\${doggo.security.token.expiration-time-in-seconds}")
-    private val jwtExpirationSecs: Long = 0L
+    private var jwtSecret: String = "g4OKWjQeWlcnERgrbJtCxSAmv7eJZrjjb/rBYBOTHKzCTO4FJnzneXQQ1J8XZGUJvoRMyNV+54PdqPztqFbJ4Q=="
 
     fun generateToken(authentication: Authentication): String {
         val userDetails = authentication.principal as CustomUserDetails
-        val expirationDate = run {
-            val now = Instant.now()
-            Date.from(now.plusSeconds(jwtExpirationSecs))
-        }
 
         return Jwts.builder()
-            .setSubject(userDetails.username)
-            .setIssuedAt(Date())
-            .setExpiration(expirationDate)
-            .signWith(getSecret(), SignatureAlgorithm.HS512)
-            .compact()
+                .setSubject(userDetails.username)
+                .setIssuedAt(Date())
+                .signWith(getSecret(), SignatureAlgorithm.HS512)
+                .compact()
     }
 
     fun getUsernameFromToken(token: String): String = buildParser()
-        .parseClaimsJws(token)
-        .body
-        .subject
+            .parseClaimsJws(token)
+            .body
+            .subject
 
     fun validateToken(token: String): Boolean {
         try {
@@ -61,8 +52,8 @@ object JwtUtils {
     }
 
     private fun buildParser(): JwtParser = Jwts.parserBuilder()
-        .setSigningKey(jwtSecret)
-        .build()
+            .setSigningKey(jwtSecret)
+            .build()
 
     private fun getSecret(): SecretKey {
         val keyBytes = Base64.getDecoder().decode(jwtSecret)
