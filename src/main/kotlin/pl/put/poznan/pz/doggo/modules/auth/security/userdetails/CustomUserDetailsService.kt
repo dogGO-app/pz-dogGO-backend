@@ -8,7 +8,7 @@ import pl.put.poznan.pz.doggo.modules.auth.user.UserEntityRepository
 
 @Service
 class CustomUserDetailsService(
-    val userEntityRepository: UserEntityRepository
+        val userEntityRepository: UserEntityRepository
 ) : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
         val user = userEntityRepository.findByEmail(username)

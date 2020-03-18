@@ -7,9 +7,9 @@ import pl.put.poznan.pz.doggo.modules.auth.user.UserEntityRepository
 
 @Service
 class AuthenticationService(
-    private val authenticationManager: AuthenticationManager,
-    private val passwordEncoder: PasswordEncoder,
-    private val userEntityRepository: UserEntityRepository
+        private val authenticationManager: AuthenticationManager,
+        private val passwordEncoder: PasswordEncoder,
+        private val userEntityRepository: UserEntityRepository
 ) {
 
 }

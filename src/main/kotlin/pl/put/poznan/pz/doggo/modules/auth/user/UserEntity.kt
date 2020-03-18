@@ -12,16 +12,16 @@ import javax.validation.constraints.Size
 @Entity
 @Table(name = "_user")
 class UserEntity(
-    @Id
-    @Type(type = "pg-uuid")
-    val id: UUID = UUID.randomUUID(),
+        @Id
+        @Type(type = "pg-uuid")
+        val id: UUID = UUID.randomUUID(),
 
-    @NotBlank
-    @Email
-    @Size(max = 50)
-    val email: String,
+        @NotBlank
+        @Email
+        @Size(max = 50)
+        val email: String,
 
-    @NotBlank
-    @Size(max = 120)
-    val password: String
+        @NotBlank
+        @Size(max = 120)
+        val password: String
 )

@@ -30,17 +30,17 @@ object JwtUtils {
         }
 
         return Jwts.builder()
-            .setSubject(userDetails.username)
-            .setIssuedAt(Date())
-            .setExpiration(expirationDate)
-            .signWith(getSecret(), SignatureAlgorithm.HS512)
-            .compact()
+                .setSubject(userDetails.username)
+                .setIssuedAt(Date())
+                .setExpiration(expirationDate)
+                .signWith(getSecret(), SignatureAlgorithm.HS512)
+                .compact()
     }
 
     fun getUsernameFromToken(token: String): String = buildParser()
-        .parseClaimsJws(token)
-        .body
-        .subject
+            .parseClaimsJws(token)
+            .body
+            .subject
 
     fun validateToken(token: String): Boolean {
         try {
@@ -61,8 +61,8 @@ object JwtUtils {
     }
 
     private fun buildParser(): JwtParser = Jwts.parserBuilder()
-        .setSigningKey(jwtSecret)
-        .build()
+            .setSigningKey(jwtSecret)
+            .build()
 
     private fun getSecret(): SecretKey {
         val keyBytes = Base64.getDecoder().decode(jwtSecret)

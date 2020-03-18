@@ -20,8 +20,8 @@ import pl.put.poznan.pz.doggo.modules.auth.security.userdetails.CustomUserDetail
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 class WebSecurityConfig(
-    private val userDetailsService: CustomUserDetailsService,
-    private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint
+        private val userDetailsService: CustomUserDetailsService,
+        private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint
 ) : WebSecurityConfigurerAdapter() {
     @Bean
     fun authenticationJwtTokenFilter(): JwtAuthenticationFilter {
@@ -44,12 +44,12 @@ class WebSecurityConfig(
 
     override fun configure(http: HttpSecurity) {
         http
-            .cors().and().csrf().disable()
-            .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-            .antMatchers("/api/test/**").permitAll()
-            .anyRequest().authenticated();
+                .cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/test/**").permitAll()
+                .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
     }

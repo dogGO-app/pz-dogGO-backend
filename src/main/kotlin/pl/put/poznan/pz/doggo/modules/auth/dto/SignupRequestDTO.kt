@@ -5,12 +5,12 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
 class SignUpRequestDTO(
-    @NotBlank
-    @Email
-    @Size(max = 50)
-    val email: String,
+        @NotBlank
+        @Email
+        @Size(max = 50)
+        val email: String,
 
-    @NotBlank
-    @Size(max = 120)
-    val password: String
+        @NotBlank
+        @Size(max = 120)
+        val password: String
 )

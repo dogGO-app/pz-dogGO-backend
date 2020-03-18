@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 class JwtAuthenticationFilter(
-    private val userDetailsService: CustomUserDetailsService
+        private val userDetailsService: CustomUserDetailsService
 ) : OncePerRequestFilter() {
     private companion object {
         const val TOKEN_HEADER = "Authorization"
@@ -19,9 +19,9 @@ class JwtAuthenticationFilter(
     }
 
     override fun doFilterInternal(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        filterChain: FilterChain
+            request: HttpServletRequest,
+            response: HttpServletResponse,
+            filterChain: FilterChain
     ) {
         try {
             val jwt = parseJwt(request)
@@ -30,7 +30,7 @@ class JwtAuthenticationFilter(
                 val userDetails = userDetailsService.loadUserByUsername(username)
 
                 val authenticationToken = UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.authorities
+                        userDetails, null, userDetails.authorities
                 )
                 authenticationToken.details = WebAuthenticationDetailsSource().buildDetails(request)
 
@@ -44,8 +44,8 @@ class JwtAuthenticationFilter(
     }
 
     private fun parseJwt(request: HttpServletRequest): String? =
-        request.getHeader(TOKEN_HEADER)?.let { authHeader ->
-            if (authHeader.startsWith(TOKEN_PREFIX)) authHeader.removePrefix(TOKEN_PREFIX)
-            else null
-        }
+            request.getHeader(TOKEN_HEADER)?.let { authHeader ->
+                if (authHeader.startsWith(TOKEN_PREFIX)) authHeader.removePrefix(TOKEN_PREFIX)
+                else null
+            }
 }
