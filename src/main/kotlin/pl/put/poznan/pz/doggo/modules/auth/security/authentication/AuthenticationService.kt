@@ -1,4 +1,4 @@
-package pl.put.poznan.pz.doggo.modules.auth
+package pl.put.poznan.pz.doggo.modules.auth.security.authentication
 
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.UserAlreadyExistsException
 import pl.put.poznan.pz.doggo.infrastructure.jwt.JwtUtils
-import pl.put.poznan.pz.doggo.modules.auth.dto.UserDTO
+import pl.put.poznan.pz.doggo.modules.auth.dto.user.UserDTO
 import pl.put.poznan.pz.doggo.modules.auth.dto.requests.LoginRequestDTO
 import pl.put.poznan.pz.doggo.modules.auth.dto.requests.SignUpRequestDTO
 import pl.put.poznan.pz.doggo.modules.auth.dto.responses.JwtResponseDTO
@@ -24,14 +24,16 @@ class AuthenticationService(
 ) {
 
     fun authenticateUser(loginRequest: LoginRequestDTO): JwtResponseDTO {
-        val authentication = authenticationManager.authenticate(UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password))
+        val authentication = authenticationManager.authenticate(
+                UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password)
+        )
         SecurityContextHolder.getContext().authentication = authentication
         val jwt = jwtUtils.generateToken(authentication)
         val userDetails = authentication.principal as CustomUserDetails
         val roles = userDetails.authorities.map { it.authority }
 
         return JwtResponseDTO(jwt,
-                id = userDetails.getId().toString(),
+                userId = userDetails.getId().toString(),
                 email = userDetails.username,
                 roles = roles)
     }

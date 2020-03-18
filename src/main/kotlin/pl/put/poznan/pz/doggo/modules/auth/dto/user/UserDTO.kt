@@ -1,4 +1,4 @@
-package pl.put.poznan.pz.doggo.modules.auth.dto
+package pl.put.poznan.pz.doggo.modules.auth.dto.user
 
 import pl.put.poznan.pz.doggo.modules.auth.user.UserEntity
 
