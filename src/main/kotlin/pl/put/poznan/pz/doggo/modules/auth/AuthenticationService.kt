@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.UserAlreadyExistsException
 import pl.put.poznan.pz.doggo.infrastructure.jwt.JwtUtils
+import pl.put.poznan.pz.doggo.modules.auth.dto.UserDTO
 import pl.put.poznan.pz.doggo.modules.auth.dto.requests.LoginRequestDTO
 import pl.put.poznan.pz.doggo.modules.auth.dto.requests.SignUpRequestDTO
 import pl.put.poznan.pz.doggo.modules.auth.dto.responses.JwtResponseDTO
@@ -35,11 +36,11 @@ class AuthenticationService(
                 roles = roles)
     }
 
-    fun registerUser(signUpRequestDTO: SignUpRequestDTO): UserEntity {
+    fun registerUser(signUpRequestDTO: SignUpRequestDTO): UserDTO {
         checkIfUserAlreadyExists(signUpRequestDTO.email)
         val user = UserEntity(email = signUpRequestDTO.email,
                 password = passwordEncoder.encode(signUpRequestDTO.password))
-        return userEntityRepository.save(user)
+        return UserDTO(userEntityRepository.save(user))
     }
 
     private fun checkIfUserAlreadyExists(email: String) {

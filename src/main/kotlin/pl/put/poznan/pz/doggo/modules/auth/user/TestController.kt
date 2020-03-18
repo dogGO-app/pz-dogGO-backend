@@ -1,11 +1,10 @@
 package pl.put.poznan.pz.doggo.modules.auth.user
 
-import com.fasterxml.jackson.annotation.JsonView
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import pl.put.poznan.pz.doggo.modules.auth.dto.UserDTO
 import pl.put.poznan.pz.doggo.modules.auth.security.userdetails.CustomUserDetailsService
-import pl.put.poznan.pz.doggo.views.Views
 import javax.servlet.http.HttpServletRequest
 
 @RestController
@@ -15,9 +14,8 @@ class TestController(
 ) {
 
     @GetMapping
-    @JsonView(Views.Public::class)
-    fun authenticateUser(request: HttpServletRequest): UserEntity {
-        return userDetailsService.getUser(request)
+    fun authenticateUser(request: HttpServletRequest): UserDTO {
+        return UserDTO(userDetailsService.getUser(request))
     }
 
 }
