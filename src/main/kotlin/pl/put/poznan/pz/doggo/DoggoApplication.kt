@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class DoggoApplication
 
 fun main(args: Array<String>) {
-	runApplication<DoggoApplication>(*args)
+    runApplication<DoggoApplication>(*args)
 }

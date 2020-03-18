@@ -15,9 +15,9 @@ class JwtAuthenticationEntryPoint : AuthenticationEntryPoint {
     }
 
     override fun commence(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        authException: AuthenticationException
+            request: HttpServletRequest,
+            response: HttpServletResponse,
+            authException: AuthenticationException
     ) {
         logger.error("Unauthorized error: {}", authException.message)
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized")
