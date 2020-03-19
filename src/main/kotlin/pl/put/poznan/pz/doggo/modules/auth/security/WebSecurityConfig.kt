@@ -2,6 +2,7 @@ package pl.put.poznan.pz.doggo.modules.auth.security
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
@@ -51,8 +52,9 @@ class WebSecurityConfig(
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/auth/signout").hasAuthority("ROLE_USER") // How to make this one endpoint authorized?
+                .antMatchers(HttpMethod.POST, "/api/auth/signin").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/auth/signup").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/auth/signout").hasAuthority("ROLE_USER")
                 .antMatchers("/api/test/**").hasAuthority("ROLE_USER")
                 .anyRequest().authenticated()
 
