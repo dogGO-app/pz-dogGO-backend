@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails
 import pl.put.poznan.pz.doggo.modules.auth.user.UserEntity
 import java.util.*
 
-class CustomUserDetails(private val userEntity: UserEntity) : UserDetails {
+class CustomUserDetails(val userEntity: UserEntity) : UserDetails {
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        return listOf(SimpleGrantedAuthority("ROLE_USER"))
+        return userEntity.roles.map { SimpleGrantedAuthority(it.name) }
     }
 
     override fun isEnabled(): Boolean {

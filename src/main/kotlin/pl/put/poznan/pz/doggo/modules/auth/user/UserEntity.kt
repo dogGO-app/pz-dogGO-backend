@@ -2,9 +2,7 @@ package pl.put.poznan.pz.doggo.modules.auth.user
 
 import org.hibernate.annotations.Type
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
@@ -25,5 +23,7 @@ class UserEntity(
         @Size(max = 120)
         val password: String,
 
-        val role: String = "ROLE_USER"
+        @ElementCollection(fetch = FetchType.EAGER)
+        @Enumerated(EnumType.STRING)
+        val roles: Set<Role>
 )
