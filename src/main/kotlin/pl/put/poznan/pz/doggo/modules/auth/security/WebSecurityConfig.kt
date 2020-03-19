@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import pl.put.poznan.pz.doggo.modules.auth.security.jwt.JwtAuthenticationEntryPoint
 import pl.put.poznan.pz.doggo.modules.auth.security.jwt.JwtAuthenticationFilter
+import pl.put.poznan.pz.doggo.modules.auth.security.jwt.JwtBlacklistService
 import pl.put.poznan.pz.doggo.modules.auth.security.userdetails.CustomUserDetailsService
 
 @Configuration
@@ -21,12 +22,13 @@ import pl.put.poznan.pz.doggo.modules.auth.security.userdetails.CustomUserDetail
 @EnableGlobalMethodSecurity(securedEnabled = true)
 class WebSecurityConfig(
         private val userDetailsService: CustomUserDetailsService,
+        private val jwtBlacklistService: JwtBlacklistService,
         private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint
 ) : WebSecurityConfigurerAdapter() {
 
     @Bean
     fun authenticationJwtTokenFilter(): JwtAuthenticationFilter {
-        return JwtAuthenticationFilter(userDetailsService)
+        return JwtAuthenticationFilter(userDetailsService, jwtBlacklistService)
     }
 
     @Bean
@@ -50,6 +52,7 @@ class WebSecurityConfig(
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/auth/signout").hasAuthority("ROLE_USER") // How to make this one endpoint authorized?
                 .antMatchers("/api/test/**").hasAuthority("ROLE_USER")
                 .anyRequest().authenticated()
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import pl.put.poznan.pz.doggo.modules.auth.security.userdetails.CustomUserDetails
+import java.time.Instant
 import java.util.*
 import javax.crypto.SecretKey
 import javax.servlet.http.HttpServletRequest
@@ -16,18 +17,25 @@ import javax.servlet.http.HttpServletRequest
 object JwtUtils {
     private val logger: Logger = LoggerFactory.getLogger(JwtUtils::class.java)
 
-    @Value("\${doggo.security.token.secret}")
-    private var jwtSecret: String = "g4OKWjQeWlcnERgrbJtCxSAmv7eJZrjjb/rBYBOTHKzCTO4FJnzneXQQ1J8XZGUJvoRMyNV+54PdqPztqFbJ4Q=="
+    private const val jwtSecret =
+            "g4OKWjQeWlcnERgrbJtCxSAmv7eJZrjjb/rBYBOTHKzCTO4FJnzneXQQ1J8XZGUJvoRMyNV+54PdqPztqFbJ4Q=="
+    private const val jwtExpirationSecs = 86400L
 
     private const val TOKEN_HEADER = "Authorization"
     private const val TOKEN_PREFIX = "Bearer "
 
     fun generateToken(authentication: Authentication): String {
         val userDetails = authentication.principal as CustomUserDetails
+        val expirationDate = run {
+            val now = Instant.now()
+            Date.from(now.plusSeconds(jwtExpirationSecs))
+        }
 
         return Jwts.builder()
+                .setId(UUID.randomUUID().toString())
                 .setSubject(userDetails.username)
                 .setIssuedAt(Date())
+                .setExpiration(expirationDate)
                 .signWith(getSecret(), SignatureAlgorithm.HS512)
                 .compact()
     }
@@ -36,6 +44,11 @@ object JwtUtils {
             .parseClaimsJws(token)
             .body
             .subject
+
+    fun getTokenId(token: String): String = buildParser()
+            .parseClaimsJws(token)
+            .body
+            .id
 
     fun validateToken(token: String): Boolean {
         try {
@@ -60,6 +73,10 @@ object JwtUtils {
                 if (authHeader.startsWith(TOKEN_PREFIX)) authHeader.removePrefix(TOKEN_PREFIX)
                 else null
             }
+
+    fun parseJwt(authHeader: String): String? =
+            if (authHeader.startsWith(TOKEN_PREFIX)) authHeader.removePrefix(TOKEN_PREFIX)
+            else null
 
     private fun buildParser(): JwtParser = Jwts.parserBuilder()
             .setSigningKey(jwtSecret)
