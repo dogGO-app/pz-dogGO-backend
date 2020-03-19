@@ -10,7 +10,7 @@ import javax.persistence.Id
 class RevokedToken(
         @Id
         @Type(type = "pg-uuid")
-        val id: UUID = UUID.randomUUID(),
+        val id: UUID,
 
         val revocationDateTime: LocalDateTime = LocalDateTime.now()
 )
