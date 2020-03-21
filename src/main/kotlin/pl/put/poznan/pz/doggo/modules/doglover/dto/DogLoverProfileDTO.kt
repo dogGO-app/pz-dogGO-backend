@@ -12,7 +12,7 @@ data class DogLoverProfileDTO(
         @field:NotBlank
         val lastName: String,
 
-        @Positive
+        @field:Positive
         val age: Int,
 
         val hobby: String? = null

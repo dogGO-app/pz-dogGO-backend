@@ -4,7 +4,6 @@ import org.hibernate.annotations.Type
 import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.Email
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
 @Entity
@@ -14,13 +13,11 @@ class UserEntity(
         @Type(type = "pg-uuid")
         val id: UUID = UUID.randomUUID(),
 
-        @field:NotBlank
         @field:Email
         @field:Size(max = 50)
         val email: String,
 
-        @field:NotBlank
-        @field:Size(max = 120)
+        @field:Size(min = 8, max = 120)
         val password: String,
 
         @ElementCollection(fetch = FetchType.EAGER)

@@ -3,17 +3,14 @@ package pl.put.poznan.pz.doggo.modules.auth.dto.requests
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.RoleNotFoundException
 import pl.put.poznan.pz.doggo.modules.auth.user.Role
 import javax.validation.constraints.Email
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
 data class SignUpRequestDTO(
-        @field:NotBlank
-        @Email
-        @Size(max = 50)
+        @field:Email
+        @field:Size(max = 50)
         val email: String,
 
-        @field:NotBlank
-        @Size(max = 120)
+        @field:Size(min = 8, max = 120)
         val password: String,
 
         val roles: Set<String> = DEFAULT_ROLES
