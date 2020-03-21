@@ -55,6 +55,10 @@ class WebSecurityConfig(
                 .antMatchers(HttpMethod.POST, "/api/auth/signin").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/auth/signup").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/auth/signout").hasAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.POST, "/api/dogs").hasAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.PUT, "/api/dogs").hasAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.GET, "/api/dogs").hasAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.GET, "/api/dogs/{name}").hasAuthority("ROLE_USER")
                 .antMatchers("/api/test/**").hasAuthority("ROLE_USER")
                 .anyRequest().authenticated()
 
