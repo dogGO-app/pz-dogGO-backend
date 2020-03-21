@@ -13,11 +13,7 @@ class DogLoverController(
     fun getDogLoverProfile(): DogLoverProfileDTO =
             dogLoverService.getDogLoverProfile()
 
-    @PostMapping
-    fun createDogLoverProfile(@Valid @RequestBody dogLoverProfile: DogLoverProfileDTO): DogLoverProfileDTO =
-            dogLoverService.createDogLoverProfile(dogLoverProfile)
-
     @PutMapping
-    fun editDogLoverProfile(@Valid @RequestBody dogLoverProfile: DogLoverProfileDTO): DogLoverProfileDTO =
-            dogLoverService.editDogLoverProfile(dogLoverProfile)
+    fun updateDogLoverProfile(@Valid @RequestBody dogLoverProfile: DogLoverProfileDTO): DogLoverProfileDTO =
+            dogLoverService.updateDogLoverProfile(dogLoverProfile)
 }
