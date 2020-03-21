@@ -3,9 +3,9 @@ package pl.put.poznan.pz.doggo.modules.auth.dto.requests
 import javax.validation.constraints.NotBlank
 
 data class LoginRequestDTO(
-        @NotBlank
+        @field:NotBlank
         val email: String,
 
-        @NotBlank
+        @field:NotBlank
         val password: String
 )

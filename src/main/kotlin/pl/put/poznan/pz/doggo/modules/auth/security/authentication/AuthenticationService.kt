@@ -10,8 +10,8 @@ import pl.put.poznan.pz.doggo.infrastructure.exceptions.UserAlreadyExistsExcepti
 import pl.put.poznan.pz.doggo.infrastructure.jwt.JwtUtils
 import pl.put.poznan.pz.doggo.modules.auth.dto.requests.LoginRequestDTO
 import pl.put.poznan.pz.doggo.modules.auth.dto.requests.SignUpRequestDTO
-import pl.put.poznan.pz.doggo.modules.auth.dto.responses.JwtResponseDTO
-import pl.put.poznan.pz.doggo.modules.auth.dto.user.UserDTO
+import pl.put.poznan.pz.doggo.modules.auth.dto.responses.JwtTokenInfoDTO
+import pl.put.poznan.pz.doggo.modules.auth.dto.user.UserInfoDTO
 import pl.put.poznan.pz.doggo.modules.auth.security.jwt.JwtBlacklistService
 import pl.put.poznan.pz.doggo.modules.auth.security.userdetails.CustomUserDetails
 import pl.put.poznan.pz.doggo.modules.auth.user.UserEntity
@@ -26,7 +26,7 @@ class AuthenticationService(
         private val jwtUtils: JwtUtils
 ) {
 
-    fun authenticateUser(loginRequest: LoginRequestDTO): JwtResponseDTO {
+    fun authenticateUser(loginRequest: LoginRequestDTO): JwtTokenInfoDTO {
         val authentication = authenticationManager.authenticate(
                 UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password)
         )
@@ -35,21 +35,24 @@ class AuthenticationService(
         val userDetails = authentication.principal as CustomUserDetails
         val roles = userDetails.authorities.map { it.authority }
 
-        return JwtResponseDTO(jwt,
+        return JwtTokenInfoDTO(
+                token = jwt,
                 tokenId = jwtUtils.getTokenId(jwt),
+                expirationDate = jwtUtils.getTokenExpirationDate(jwt),
                 userId = userDetails.getId().toString(),
                 email = userDetails.username,
-                roles = roles)
+                roles = roles
+        )
     }
 
-    fun registerUser(signUpRequestDTO: SignUpRequestDTO): UserDTO {
+    fun registerUser(signUpRequestDTO: SignUpRequestDTO): UserInfoDTO {
         checkIfUserAlreadyExists(signUpRequestDTO.email)
         val user = UserEntity(
                 email = signUpRequestDTO.email,
                 password = passwordEncoder.encode(signUpRequestDTO.password),
                 roles = signUpRequestDTO.getEnumRoles()
         )
-        return UserDTO(userEntityRepository.save(user))
+        return UserInfoDTO(userEntityRepository.save(user))
     }
 
     fun signOutUser(authHeader: String): String {

@@ -49,6 +49,11 @@ object JwtUtils {
             .body
             .id
 
+    fun getTokenExpirationDate(token: String): Date = buildParser()
+            .parseClaimsJws(token)
+            .body
+            .expiration
+
     fun validateToken(token: String): Boolean {
         try {
             buildParser().parseClaimsJws(token)

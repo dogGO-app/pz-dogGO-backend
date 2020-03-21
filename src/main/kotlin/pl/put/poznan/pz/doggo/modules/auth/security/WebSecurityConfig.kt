@@ -55,7 +55,8 @@ class WebSecurityConfig(
                 .antMatchers(HttpMethod.POST, "/api/auth/signin").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/auth/signup").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/auth/signout").hasAuthority("ROLE_USER")
-                .antMatchers("/api/test/**").hasAuthority("ROLE_USER")
+                .antMatchers("/api/dogLover/**").hasAuthority("ROLE_USER")
+                .antMatchers("/**").denyAll()
                 .anyRequest().authenticated()
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)

@@ -3,8 +3,8 @@ package pl.put.poznan.pz.doggo.modules.auth.security.authentication
 import org.springframework.web.bind.annotation.*
 import pl.put.poznan.pz.doggo.modules.auth.dto.requests.LoginRequestDTO
 import pl.put.poznan.pz.doggo.modules.auth.dto.requests.SignUpRequestDTO
-import pl.put.poznan.pz.doggo.modules.auth.dto.responses.JwtResponseDTO
-import pl.put.poznan.pz.doggo.modules.auth.dto.user.UserDTO
+import pl.put.poznan.pz.doggo.modules.auth.dto.responses.JwtTokenInfoDTO
+import pl.put.poznan.pz.doggo.modules.auth.dto.user.UserInfoDTO
 import javax.validation.Valid
 
 @RestController
@@ -14,12 +14,12 @@ class AuthenticationController(
 ) {
 
     @PostMapping("/signin")
-    fun authenticateUser(@Valid @RequestBody loginRequest: LoginRequestDTO): JwtResponseDTO {
+    fun authenticateUser(@Valid @RequestBody loginRequest: LoginRequestDTO): JwtTokenInfoDTO {
         return authenticationService.authenticateUser(loginRequest)
     }
 
     @PostMapping("/signup")
-    fun registerUser(@Valid @RequestBody signUpRequest: SignUpRequestDTO): UserDTO {
+    fun registerUser(@Valid @RequestBody signUpRequest: SignUpRequestDTO): UserInfoDTO {
         return authenticationService.registerUser(signUpRequest)
     }
 

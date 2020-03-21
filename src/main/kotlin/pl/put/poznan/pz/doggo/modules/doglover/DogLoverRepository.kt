@@ -1,8 +1,8 @@
-package pl.put.poznan.pz.doggo.modules.auth.security.jwt
+package pl.put.poznan.pz.doggo.modules.doglover
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface RevokedTokenRepository : JpaRepository<RevokedToken, UUID>
+interface DogLoverRepository : JpaRepository<DogLover, UUID>
