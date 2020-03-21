@@ -14,13 +14,13 @@ class UserEntity(
         @Type(type = "pg-uuid")
         val id: UUID = UUID.randomUUID(),
 
-        @NotBlank
-        @Email
-        @Size(max = 50)
+        @field:NotBlank
+        @field:Email
+        @field:Size(max = 50)
         val email: String,
 
-        @NotBlank
-        @Size(max = 120)
+        @field:NotBlank
+        @field:Size(max = 120)
         val password: String,
 
         @ElementCollection(fetch = FetchType.EAGER)

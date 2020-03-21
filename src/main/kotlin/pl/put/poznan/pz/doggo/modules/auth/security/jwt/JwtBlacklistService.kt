@@ -14,7 +14,6 @@ class JwtBlacklistService(
             revokedTokenRepository.existsById(UUID.fromString(jwtUtils.getTokenId(token)))
 
     fun revokeToken(token: String) {
-        if (isTokenRevoked(token)) throw TokenRevokedException()
         val tokenId = jwtUtils.getTokenId(token)
         revokedTokenRepository.save(RevokedToken(id = UUID.fromString(tokenId)))
     }
