@@ -1,7 +1,7 @@
 package pl.put.poznan.pz.doggo.modules.dog
 
 import org.hibernate.annotations.Type
-import pl.put.poznan.pz.doggo.modules.auth.user.UserEntity
+import pl.put.poznan.pz.doggo.modules.doglover.DogLover
 import java.time.LocalDate
 import java.util.*
 import javax.persistence.Entity
@@ -27,5 +27,5 @@ class Dog(
         val lastVaccinationDate: LocalDate?,
 
         @ManyToOne
-        val user: UserEntity
+        val dogLover: DogLover
 )
