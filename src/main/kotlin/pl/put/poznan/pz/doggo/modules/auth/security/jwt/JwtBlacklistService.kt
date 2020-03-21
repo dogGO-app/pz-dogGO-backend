@@ -1,7 +1,6 @@
 package pl.put.poznan.pz.doggo.modules.auth.security.jwt
 
 import org.springframework.stereotype.Service
-import pl.put.poznan.pz.doggo.infrastructure.exceptions.TokenRevokedException
 import pl.put.poznan.pz.doggo.infrastructure.jwt.JwtUtils
 import java.util.*
 
