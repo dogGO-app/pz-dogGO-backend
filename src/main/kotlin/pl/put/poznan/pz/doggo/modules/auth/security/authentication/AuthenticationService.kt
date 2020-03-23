@@ -32,17 +32,8 @@ class AuthenticationService(
         )
         SecurityContextHolder.getContext().authentication = authentication
         val jwt = jwtUtils.generateToken(authentication)
-        val userDetails = authentication.principal as CustomUserDetails
-        val roles = userDetails.authorities.map { it.authority }
 
-        return JwtTokenInfoDTO(
-                token = jwt,
-                tokenId = jwtUtils.getTokenId(jwt),
-                expirationDate = jwtUtils.getTokenExpirationDate(jwt),
-                userId = userDetails.getId().toString(),
-                email = userDetails.username,
-                roles = roles
-        )
+        return JwtTokenInfoDTO(token = jwt)
     }
 
     fun registerUser(signUpRequestDTO: SignUpRequestDTO): UserInfoDTO {
