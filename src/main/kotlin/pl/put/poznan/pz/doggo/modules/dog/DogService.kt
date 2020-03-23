@@ -3,6 +3,7 @@ package pl.put.poznan.pz.doggo.modules.dog
 import org.springframework.stereotype.Service
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.DogAlreadyExistsException
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.DogNotFoundException
+import pl.put.poznan.pz.doggo.infrastructure.exceptions.UserAlreadyHasDogException
 import pl.put.poznan.pz.doggo.modules.auth.dto.dog.DogDTO
 import pl.put.poznan.pz.doggo.modules.auth.security.authorization.AuthorizationService
 import java.util.*
@@ -15,7 +16,7 @@ class DogService(
 
     fun addDog(dogDTO: DogDTO): DogDTO {
         val dogLover = authorizationService.getCurrentDogLover()
-        checkIfDogExists(dogDTO.name, dogLover.id)
+        checkIfUserHasDog(dogLover.id)
         val dog = Dog(
                 name = dogDTO.name,
                 breed = dogDTO.breed,
@@ -43,9 +44,9 @@ class DogService(
         return DogDTO(dogRepository.save(updatedDog))
     }
 
-    fun getUserDogs(): List<DogDTO> {
+    fun getUserDogs(): DogDTO {
         val dogLover = authorizationService.getCurrentDogLover()
-        return dogRepository.findAllByDogLoverId(dogLover.id).map { DogDTO(it) }
+        return DogDTO(dogRepository.findAllByDogLoverId(dogLover.id).first())
     }
 
     fun getDog(name: String): DogDTO {
@@ -57,5 +58,10 @@ class DogService(
     private fun checkIfDogExists(name: String, dogLoverId: UUID) {
         if (dogRepository.existsByNameAndDogLoverId(name, dogLoverId))
             throw DogAlreadyExistsException(name, dogLoverId)
+    }
+
+    private fun checkIfUserHasDog(dogLoverId: UUID) {
+        if (dogRepository.findAllByDogLoverId(dogLoverId).isNotEmpty())
+            throw UserAlreadyHasDogException(dogLoverId)
     }
 }
