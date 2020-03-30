@@ -25,7 +25,7 @@ class DogController(
     }
 
     @GetMapping
-    fun getUserDogs(): DogDTO {
+    fun getUserDogs(): List<DogDTO> {
         return dogService.getUserDogs()
     }
 }
