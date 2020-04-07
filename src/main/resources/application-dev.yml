@@ -17,3 +17,6 @@ spring:
         hbm2ddl:
           import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
     show-sql: false
+
+self:
+  time-zone: Europe/Warsaw
