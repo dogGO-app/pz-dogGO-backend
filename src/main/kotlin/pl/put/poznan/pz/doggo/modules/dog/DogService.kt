@@ -54,6 +54,12 @@ class DogService(
                 ?: throw DogNotFoundException(name, dogLover.id))
     }
 
+    fun getDogEntity(name: String): Dog {
+        val dogLover = authorizationService.getCurrentDogLover()
+        return dogRepository.findByNameAndDogLoverId(name, dogLover.id)
+                ?: throw DogNotFoundException(name, dogLover.id)
+    }
+
     private fun checkIfDogExists(name: String, dogLoverId: UUID) {
         if (dogRepository.existsByNameAndDogLoverId(name, dogLoverId))
             throw DogAlreadyExistsException(name, dogLoverId)
