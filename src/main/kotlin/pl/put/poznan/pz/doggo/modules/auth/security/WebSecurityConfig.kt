@@ -57,9 +57,10 @@ class WebSecurityConfig(
                 .antMatchers(HttpMethod.POST, "/api/auth/signout").hasAuthority("ROLE_USER")
                 .antMatchers("/api/dogLover/**").hasAuthority("ROLE_USER")
                 .antMatchers("/api/dogs/**").hasAuthority("ROLE_USER")
-                .antMatchers("/api/user-calendar-events/**").hasAuthority("ROLE_USER")
+                .antMatchers("/api/userCalendarEvents/**").hasAuthority("ROLE_USER")
                 .antMatchers("/**").denyAll()
                 .anyRequest().authenticated()
+
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
     }

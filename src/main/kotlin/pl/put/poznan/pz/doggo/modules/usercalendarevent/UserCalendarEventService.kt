@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.CalendarIdEmptyException
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.UserCalendarEventNotFoundException
 import pl.put.poznan.pz.doggo.modules.auth.dto.usercalendarevent.UserCalendarEventDTO
-import pl.put.poznan.pz.doggo.modules.auth.security.authorization.AuthorizationService
 import pl.put.poznan.pz.doggo.modules.dog.DogService
 import pl.put.poznan.pz.doggo.modules.doglover.DogLover
 import java.time.*
@@ -15,20 +14,17 @@ import java.util.*
 class UserCalendarEventService(
         @Value("\${self.time-zone}") private val timeZone: String,
         private val userCalendarEventRepository: UserCalendarEventRepository,
-        private val dogService: DogService,
-        private val authorizationService: AuthorizationService
+        private val dogService: DogService
 ) {
 
-    fun getUserCalendar(): List<UserCalendarEventDTO> {
-        val dogLover = authorizationService.getCurrentDogLover()
+    fun getUserCalendar(dogLover: DogLover): List<UserCalendarEventDTO> {
         return userCalendarEventRepository.findAllByDogLoverAndDateTimeAfter(dogLover, Instant.now())
                 .sortedBy { it.dateTime }
                 .map { UserCalendarEventDTO(it, timeZone) }
     }
 
-    fun saveCalendarEvent(userCalendarEventDTO: UserCalendarEventDTO): UserCalendarEventDTO {
-        val dogLover = authorizationService.getCurrentDogLover()
-        val dog = dogService.getDogEntity(userCalendarEventDTO.dogName)
+    fun saveCalendarEvent(userCalendarEventDTO: UserCalendarEventDTO, dogLover: DogLover): UserCalendarEventDTO {
+        val dog = dogService.getDogEntity(userCalendarEventDTO.dogName, dogLover)
         val dateTime = getInstantFromDateAndTime(userCalendarEventDTO.date, userCalendarEventDTO.time)
         val userCalendarEvent = UserCalendarEvent(
                 dateTime = dateTime,
@@ -40,10 +36,10 @@ class UserCalendarEventService(
         return UserCalendarEventDTO(userCalendarEventRepository.save(userCalendarEvent), timeZone)
     }
 
-    fun updateCalendarEvent(userCalendarEventDTO: UserCalendarEventDTO): UserCalendarEventDTO {
-        val dogLover = authorizationService.getCurrentDogLover()
-        val calendarEvent = getCalendarEvent(userCalendarEventDTO.id ?: throw CalendarIdEmptyException(), dogLover)
-        val dog = dogService.getDogEntity(userCalendarEventDTO.dogName)
+    fun updateCalendarEvent(userCalendarEventDTO: UserCalendarEventDTO, dogLover: DogLover): UserCalendarEventDTO {
+        val calendarEvent = getCalendarEventEntity(userCalendarEventDTO.id
+                ?: throw CalendarIdEmptyException(), dogLover)
+        val dog = dogService.getDogEntity(userCalendarEventDTO.dogName, dogLover)
         val dateTime = getInstantFromDateAndTime(userCalendarEventDTO.date, userCalendarEventDTO.time)
         val updatedCalendarEvent = UserCalendarEvent(
                 id = calendarEvent.id,
@@ -56,14 +52,13 @@ class UserCalendarEventService(
         return UserCalendarEventDTO(userCalendarEventRepository.save(updatedCalendarEvent), timeZone)
     }
 
-    fun getCalendarEvent(id: UUID): UserCalendarEventDTO {
-        val dogLover = authorizationService.getCurrentDogLover()
+    fun getCalendarEvent(id: UUID, dogLover: DogLover): UserCalendarEventDTO {
         return UserCalendarEventDTO(userCalendarEventRepository.findByIdAndDogLover(id, dogLover)
                 ?: throw UserCalendarEventNotFoundException(id, dogLover.id),
                 timeZone)
     }
 
-    private fun getCalendarEvent(id: UUID, dogLover: DogLover): UserCalendarEvent {
+    private fun getCalendarEventEntity(id: UUID, dogLover: DogLover): UserCalendarEvent {
         return userCalendarEventRepository.findByIdAndDogLover(id, dogLover)
                 ?: throw UserCalendarEventNotFoundException(id, dogLover.id)
     }

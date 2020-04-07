@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank
 
 data class UserCalendarEventDTO(
 
-        val id: UUID?,
+        val id: UUID? = null,
 
         val date: LocalDate,
 

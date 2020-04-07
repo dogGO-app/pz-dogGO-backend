@@ -4,17 +4,15 @@ import org.springframework.stereotype.Service
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.DogAlreadyExistsException
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.DogNotFoundException
 import pl.put.poznan.pz.doggo.modules.auth.dto.dog.DogDTO
-import pl.put.poznan.pz.doggo.modules.auth.security.authorization.AuthorizationService
+import pl.put.poznan.pz.doggo.modules.doglover.DogLover
 import java.util.*
 
 @Service
 class DogService(
-        private val dogRepository: DogRepository,
-        private val authorizationService: AuthorizationService
+        private val dogRepository: DogRepository
 ) {
 
-    fun addDog(dogDTO: DogDTO): DogDTO {
-        val dogLover = authorizationService.getCurrentDogLover()
+    fun addDog(dogDTO: DogDTO, dogLover: DogLover): DogDTO {
         checkIfDogExists(dogDTO.name, dogLover.id)
         val dog = Dog(
                 name = dogDTO.name,
@@ -27,8 +25,7 @@ class DogService(
         return DogDTO(dogRepository.save(dog))
     }
 
-    fun updateDog(dogDTO: DogDTO): DogDTO {
-        val dogLover = authorizationService.getCurrentDogLover()
+    fun updateDog(dogDTO: DogDTO, dogLover: DogLover): DogDTO {
         val dog = dogRepository.findByNameAndDogLoverId(dogDTO.name, dogLover.id)
                 ?: throw DogNotFoundException(dogDTO.name, dogLover.id)
         val updatedDog = Dog(
@@ -43,19 +40,16 @@ class DogService(
         return DogDTO(dogRepository.save(updatedDog))
     }
 
-    fun getUserDogs(): List<DogDTO> {
-        val dogLover = authorizationService.getCurrentDogLover()
+    fun getUserDogs(dogLover: DogLover): List<DogDTO> {
         return dogRepository.findAllByDogLoverId(dogLover.id).map { DogDTO(it) }
     }
 
-    fun getDog(name: String): DogDTO {
-        val dogLover = authorizationService.getCurrentDogLover()
+    fun getDog(name: String, dogLover: DogLover): DogDTO {
         return DogDTO(dogRepository.findByNameAndDogLoverId(name, dogLover.id)
                 ?: throw DogNotFoundException(name, dogLover.id))
     }
 
-    fun getDogEntity(name: String): Dog {
-        val dogLover = authorizationService.getCurrentDogLover()
+    fun getDogEntity(name: String, dogLover: DogLover): Dog {
         return dogRepository.findByNameAndDogLoverId(name, dogLover.id)
                 ?: throw DogNotFoundException(name, dogLover.id)
     }
