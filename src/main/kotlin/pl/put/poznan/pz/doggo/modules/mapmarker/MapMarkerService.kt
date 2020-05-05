@@ -20,6 +20,7 @@ class MapMarkerService(
         checkIfIdNotExistsOrThrow(mapMarkerDTO.id)
         val mapMarker = MapMarker(
                 mapMarkerDTO.id,
+                mapMarkerDTO.name,
                 mapMarkerDTO.description,
                 mapMarkerDTO.latitude,
                 mapMarkerDTO.longitude,
@@ -30,13 +31,13 @@ class MapMarkerService(
         return MapMarkerDTO(mapMarkerRepository.save(mapMarker))
     }
 
+    fun getAllMapMarkers(): List<MapMarkerDTO> {
+        return mapMarkerRepository.findAll().map { MapMarkerDTO(it) }
+    }
+
     private fun checkIfIdNotExistsOrThrow(id: UUID) {
         if (mapMarkerRepository.existsById(id))
             throw MapMarkerAlreadyExistsException(id)
-    }
-
-    fun getAllMapMarkers(): List<MapMarkerDTO> {
-        return mapMarkerRepository.findAll().map { MapMarkerDTO(it) }
     }
 
     private fun checkIfNewMapMarkerIsFarEnough(mapMarker: MapMarker) {
@@ -46,13 +47,13 @@ class MapMarkerService(
         }
     }
 
-    private fun countDistance(newMapMarker: MapMarker, existingMapMarker: MapMarker): Float {
+    private fun countDistance(newMapMarker: MapMarker, existingMapMarker: MapMarker): Double {
         val latitudeDiff = toRadians(newMapMarker.latitude - existingMapMarker.latitude)
         val longitudeDiff = toRadians(newMapMarker.longitude - existingMapMarker.longitude)
         val a = sin(latitudeDiff / 2).pow(2) + cos(toRadians(newMapMarker.latitude)) * cos(toRadians(newMapMarker.longitude)) * sin(longitudeDiff / 2).pow(2)
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
-        return (earthRadius * c).toFloat()
+        return earthRadius * c
     }
 
 }

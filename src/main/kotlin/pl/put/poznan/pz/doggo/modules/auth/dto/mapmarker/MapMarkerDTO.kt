@@ -8,7 +8,9 @@ import javax.validation.constraints.DecimalMin
 data class MapMarkerDTO(
         val id: UUID,
 
-        val description: String,
+        val name: String,
+
+        val description: String?,
 
         @field:DecimalMin("-90.0")
         @field:DecimalMax("90.0")
@@ -20,6 +22,7 @@ data class MapMarkerDTO(
 ) {
     constructor(mapMarker: MapMarker) : this(
             id = mapMarker.id,
+            name = mapMarker.name,
             description = mapMarker.description,
             latitude = mapMarker.latitude,
             longitude = mapMarker.longitude

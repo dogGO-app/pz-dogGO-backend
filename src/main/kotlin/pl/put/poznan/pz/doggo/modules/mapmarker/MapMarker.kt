@@ -15,7 +15,9 @@ class MapMarker(
         @Type(type = "pg-uuid")
         val id: UUID,
 
-        val description: String,
+        val name: String,
+
+        val description: String?,
 
         @field:DecimalMin("-90.0")
         @field:DecimalMax("90.0")
