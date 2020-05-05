@@ -58,6 +58,7 @@ class WebSecurityConfig(
                 .antMatchers("/api/dogLover/**").hasAuthority("ROLE_USER")
                 .antMatchers("/api/dogs/**").hasAuthority("ROLE_USER")
                 .antMatchers("/api/userCalendarEvents/**").hasAuthority("ROLE_USER")
+                .antMatchers("/api/mapMarkers").hasAuthority("ROLE_USER")
                 .antMatchers("/**").denyAll()
                 .anyRequest().authenticated()
 
