@@ -1,13 +1,15 @@
-package pl.put.poznan.pz.doggo.modules.auth.dto.mapmarker
+package pl.put.poznan.pz.doggo.modules.mapmarker.dto
 
 import pl.put.poznan.pz.doggo.modules.mapmarker.MapMarker
 import java.util.*
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.NotBlank
 
 data class MapMarkerDTO(
         val id: UUID,
 
+        @field:NotBlank
         val name: String,
 
         val description: String?,

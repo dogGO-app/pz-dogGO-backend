@@ -1,7 +1,7 @@
 package pl.put.poznan.pz.doggo.modules.dog
 
 import org.springframework.web.bind.annotation.*
-import pl.put.poznan.pz.doggo.modules.auth.dto.dog.DogDTO
+import pl.put.poznan.pz.doggo.modules.dog.dto.DogDTO
 import pl.put.poznan.pz.doggo.modules.auth.security.authorization.AuthorizationService
 
 @RestController

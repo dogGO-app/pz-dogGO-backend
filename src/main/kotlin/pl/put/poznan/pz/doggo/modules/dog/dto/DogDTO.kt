@@ -1,4 +1,4 @@
-package pl.put.poznan.pz.doggo.modules.auth.dto.dog
+package pl.put.poznan.pz.doggo.modules.dog.dto
 
 import pl.put.poznan.pz.doggo.modules.dog.Dog
 import java.time.LocalDate

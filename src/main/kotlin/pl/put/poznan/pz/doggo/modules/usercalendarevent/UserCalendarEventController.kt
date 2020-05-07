@@ -1,7 +1,7 @@
 package pl.put.poznan.pz.doggo.modules.usercalendarevent
 
 import org.springframework.web.bind.annotation.*
-import pl.put.poznan.pz.doggo.modules.auth.dto.usercalendarevent.UserCalendarEventDTO
+import pl.put.poznan.pz.doggo.modules.usercalendarevent.dto.UserCalendarEventDTO
 import pl.put.poznan.pz.doggo.modules.auth.security.authorization.AuthorizationService
 import java.util.*
 import javax.validation.Valid

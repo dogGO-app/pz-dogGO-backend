@@ -3,7 +3,7 @@ package pl.put.poznan.pz.doggo.modules.dog
 import org.springframework.stereotype.Service
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.DogAlreadyExistsException
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.DogNotFoundException
-import pl.put.poznan.pz.doggo.modules.auth.dto.dog.DogDTO
+import pl.put.poznan.pz.doggo.modules.dog.dto.DogDTO
 import pl.put.poznan.pz.doggo.modules.doglover.DogLover
 import java.util.*
 

@@ -6,7 +6,7 @@ import pl.put.poznan.pz.doggo.infrastructure.exceptions.UserCalendarEventAlready
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.UserCalendarEventDateTimeException
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.UserCalendarEventNotFoundException
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.UserCalendarIdEmptyException
-import pl.put.poznan.pz.doggo.modules.auth.dto.usercalendarevent.UserCalendarEventDTO
+import pl.put.poznan.pz.doggo.modules.usercalendarevent.dto.UserCalendarEventDTO
 import pl.put.poznan.pz.doggo.modules.dog.Dog
 import pl.put.poznan.pz.doggo.modules.dog.DogService
 import pl.put.poznan.pz.doggo.modules.doglover.DogLover

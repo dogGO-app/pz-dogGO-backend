@@ -1,7 +1,7 @@
 package pl.put.poznan.pz.doggo.modules.mapmarker
 
 import org.springframework.web.bind.annotation.*
-import pl.put.poznan.pz.doggo.modules.auth.dto.mapmarker.MapMarkerDTO
+import pl.put.poznan.pz.doggo.modules.mapmarker.dto.MapMarkerDTO
 import javax.validation.Valid
 
 @RestController

@@ -1,4 +1,4 @@
-package pl.put.poznan.pz.doggo.modules.auth.dto.usercalendarevent
+package pl.put.poznan.pz.doggo.modules.usercalendarevent.dto
 
 import pl.put.poznan.pz.doggo.modules.usercalendarevent.UserCalendarEvent
 import java.time.LocalDate

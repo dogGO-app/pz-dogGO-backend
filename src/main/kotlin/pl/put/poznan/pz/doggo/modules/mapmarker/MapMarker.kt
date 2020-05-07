@@ -7,6 +7,7 @@ import javax.persistence.Entity
 import javax.persistence.Id
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.NotBlank
 
 @Entity
 class MapMarker(
@@ -15,6 +16,7 @@ class MapMarker(
         @Type(type = "pg-uuid")
         val id: UUID,
 
+        @field:NotBlank
         val name: String,
 
         val description: String?,

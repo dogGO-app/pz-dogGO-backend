@@ -3,7 +3,7 @@ package pl.put.poznan.pz.doggo.modules.mapmarker
 import org.springframework.stereotype.Service
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.MapMarkerAlreadyExistsException
 import pl.put.poznan.pz.doggo.infrastructure.exceptions.MapMarkerTooCloseException
-import pl.put.poznan.pz.doggo.modules.auth.dto.mapmarker.MapMarkerDTO
+import pl.put.poznan.pz.doggo.modules.mapmarker.dto.MapMarkerDTO
 import java.lang.Math.toRadians
 import java.time.Instant
 import java.util.*
